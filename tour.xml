@@ -1,0 +1,207 @@
+<krpano version="1.20.11" title="Portfolio tour">
+
+	<include url="skin/vtourskin.xml" />
+
+	<layer name="map" url="skin/logo.png" keep="true" scale="0.5" x="20" y="20" align="topleft" enabled="true" alpha="1" onclick="openmap"/>
+	<!-- skin_logo를 name으로 하면 vtourskin에 있는 layer세팅값을 가져가기 때문에 톨바취급!! 이름을 변경하면 그냥 이미지 추가 한것 -->
+	<!-- edge??
+	alpha = 불투명도
+	enabled = 사용/비사용
+	onclick="openurl(http:~~)"
+	 -->
+
+
+	<!-- map opening - scale the map up to 100% (or smaller if the screen is too small) -->
+	<action name="openmap">
+	set(layer[map].onclick, closemap(); );
+	layer[map].changeorigin(center,center);
+
+	set(bigscale,1);
+	if(layer[map].imagewidth GT stagewidth, div(bigscale, stagewidth, layer[map].imagewidth); );
+
+	tween(layer[map].x, 0);
+	tween(layer[map].y, 0);
+	tween(layer[map].scale, get(bigscale));
+	</action>
+
+	<!-- map closing - scale the map back to 0.25 of its image pixelsize -->
+	<action name="closemap">
+	set(layer[map].onclick, openmap(); );
+	layer[map].changeorigin(lefttop,lefttop);
+
+	tween(layer[map].x, 20);
+	tween(layer[map].y, 20);
+	tween(layer[map].scale, 0.5);
+	</action>
+
+
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<!-- 
+	maps = 구글지도 연동 (api키, 위도와 경도가 필요)
+	gyro = 모바일 움직이면 화면이 같이 움직이게 하는 설정
+	webvr = 닌텐도모양 추가/삭제
+	autotour = 자동움직임
+	littleplanetintro = 인트로 멋있게
+	followmousecontrol = 마우스 움직일때 화면이 돌아가진 않지만 살짝 움직이는 무빙
+	scene title 변경가능
+	title = title 제목 표시여부
+	thumbs_opened = 맵들 기본적으로 열리게
+	thumbs_width = 값을 늘릴수록 화면이 더 크게 보이나 비율이 깨지는 것을 고려해야함. padding 또한 키우면 크게보인다. thumbs_croop은 x축 , y축, 가로크기, 세로크기
+	thumbs_onhoverscrolling= thumbs의 클릭하지 않고 자체적으로 움직일 수 있게 하는기능
+	thumbs_scrollbuttons = thumbs슬라이드 버튼이 생성됨
+	thumbs_text = thumbs에서 타이틀 표기
+	thumbs_loop = 무한 슬라이드 / 슬라이드 loop의 기능과 같음
+	tooltips_thumbs = 호버 시 thumbs 제목 표시
+	tooltips_hotspots = 호버 시 hotspot 지점의 title 표시
+	deeplinking= 지점마다 url 별도로 표시
+	loadscene_blend = 화면 넘어갈 때 효과모음
+	(
+	<blendmodes name="no blending"          blend="NOBLEND" />
+	<blendmodes name="simple crossblending" blend="BLEND(1.0, easeInCubic)" />
+	<blendmodes name="zoom blend"           blend="ZOOMBLEND(2.0, 2.0, easeInOutSine)" />
+	<blendmodes name="black-out"            blend="COLORBLEND(2.0, 0x000000, easeOutSine)" />
+	<blendmodes name="white-flash"          blend="LIGHTBLEND(1.0, 0xFFFFFF, 2.0, linear)" />
+	<blendmodes name="right-to-left"        blend="SLIDEBLEND(1.0, 0.0, 0.2, linear)" />
+	<blendmodes name="top-to-bottom"        blend="SLIDEBLEND(1.0, 90.0, 0.01, linear)" />
+	<blendmodes name="diagonal"             blend="SLIDEBLEND(1.0, 135.0, 0.4, linear)" />
+	<blendmodes name="circle open"          blend="OPENBLEND(1.0, 0.0, 0.2, 0.0, linear)" />
+	<blendmodes name="vertical open"        blend="OPENBLEND(0.7, 1.0, 0.1, 0.0, linear)" />
+	<blendmodes name="horizontal open"      blend="OPENBLEND(1.0, -1.0, 0.3, 0.0, linear)" />
+	<blendmodes name="elliptic + zoom"      blend="OPENBLEND(1.0, -0.5, 0.3, 0.8, linear)" />
+	)
+	loadscene_blend_prev = 다음으로 넘어갈 때 효과
+	loadscene_blend_next = 이전으로 넘어갈 때 효과
+	loadingtext = 로딩 텍스트 출력
+	layout_maxwidth = 기본적으로 px단위이고 큰 화면의 경우 100% 권장
+	controlbar_height = 하단 막대바 높이
+	design_skin_images = 아이콘 위치표시, 포토샵을 이용해 수정가능
+	design_bgcolor = 툴바 배경색 지정
+	design_bgalpha = 툴바 불투명도 지정
+	design_bgborder = 툴바 선색 지정
+	design_bgshadow = 툴바 그림자 지정
+	design_thumbborder_bgborder = 미리보기 사진 선색 지정
+	design_thumbborder_padding = 미리보기이 얼마나 안쪽에 생성될 지 거리 지정
+	design_text_css = 툴바 타이틀 선색 지정
+	design_text_shadow = 툴바 타이틀 그림자 지정
+	 -->
+	<skin_settings maps="false"
+	               maps_type="google"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               maps_loadonfirstuse="true"
+	               gyro="false"
+	               gyro_keeplookingdirection="false"
+	               webvr="false"
+	               webvr_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="true"
+	               autotour="false"
+	               littleplanetintro="true"
+	               followmousecontrol="true"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="true"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="false"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="true"
+	               tooltips_hotspots="true"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(1.0, -0.5, 0.3, 0.8, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext=""
+	               layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="40"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x2D3E50"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="1"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="0"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+
+
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+	<!-- <include url="skin/vtourskin_design_black.xml"       /> -->
+
+
+	
+	<scene name="scene_city" title="도시" onstart="" thumburl="panos/city.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/city.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/city.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,256" />
+		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-158.691" atv="10.504" linkedscene="scene_rever" />
+		<hotspot name="spot2" style="skin_hotspotstyle" ath="-1.613" atv="3.588" linkedscene="scene_rever" />
+
+	</scene>
+
+	<scene name="scene_rever" title="강" onstart="" thumburl="panos/rever.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/rever.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/rever.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640" />
+		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="-3.406" atv="-12.776" linkedscene="scene_winter" />
+		<hotspot name="spot2" style="skin_hotspotstyle" ath="150.032" atv="-2.911" linkedscene="scene_city" />
+
+	</scene>
+
+	<scene name="scene_winter" title="겨울, 산" onstart="" thumburl="panos/winter.tiles/thumb.jpg" lat="" lng="" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/winter.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/winter.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640" />
+		</image>
+		<hotspot name="spot1" style="skin_hotspotstyle" ath="169.264" atv="-18.668" linkedscene="scene_rever" />
+		<hotspot name="spot2" style="skin_hotspotstyle" ath="-1.893" atv="-12.574" linkedscene="scene_city" />
+
+	</scene>
+
+
+</krpano>
