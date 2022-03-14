@@ -2,14 +2,66 @@
 
 	<include url="skin/vtourskin.xml" />
 
-	<layer name="map" url="skin/logo.png" keep="true" scale="0.5" x="20" y="20" align="topleft" enabled="true" alpha="1" onclick="openmap"/>
+	<layer name="logo" url="skin/logo.png" keep="true" scale="0.5" x="20" y="20" align="topleft" enabled="true" alpha="1" onclick="openmap"/>
 	<!-- skin_logo를 name으로 하면 vtourskin에 있는 layer세팅값을 가져가기 때문에 톨바취급!! 이름을 변경하면 그냥 이미지 추가 한것 -->
 	<!-- edge??
 	alpha = 불투명도
 	enabled = 사용/비사용
 	onclick="openurl(http:~~)"
 	 -->
+	<layer 
+    name="intro"
+    type="container"
+    keep="true"
+    width="100%"
+    height="100%"
+    bgcolor="0x000000"
+    bgalpha="0.8"
+    zorder="9999"
+    enabled="true"
+    bgcapture="true"
+    onclick="on_intro_click()"
+    onloaded="on_intro_loaded()"
+	>
+    <layer name="intro_logo" url="skin/logo.png" align="center" scale="0.8" y="-150" enabled="true" onclick="on_intro_logo_click()" alpha="0"></layer>
+    <layer name="intro_guide" url="skin/help-desktop-white.png" align="center" scale="1"  enabled="true" onclick="on_intro_guide_click()" alpha="0" devices="desktop"></layer>
+	  <layer name="intro_guide" url="skin/help-mobile-white.png" align="center" scale="1"  enabled="true" onclick="on_intro_guide_click()" alpha="0" devices="mobile"></layer>
+	</layer>
 
+  <!-- enabled, bgcapture를 true로 설정해야 전체화면에 action이 발생함. -->
+  <action name="on_intro_click">
+    trace("intro is clicked!!");
+    <!-- set(layer[intro].alpha, 0); -->
+    tween(layer[intro].alpha, 0);
+    set(layer[intro].enabled, false);
+  </action>
+  <action name="on_intro_logo_click">
+    trace("logo is clicked!!");
+  </action>
+  <action name="on_intro_guide_click">
+    trace("guide is clicked!!");
+  </action>
+
+  <action name="on_intro_loaded">
+    delayedcall(1,
+      tween(layer[intro_logo].alpha, 1);
+      tween(layer[intro_guide].alpha, 1);
+    )
+  </action>
+  
+  <!-- trace = console.log인듯? tour.html에서 script 부분에 consolelog:true 기입해줘야 consolelog를 볼 수 있음. -->
+
+
+
+	<!-- 
+		type = image, container, text
+    keep = 새 패널을 불러올 때 초기화 될지 여부
+    width, height = 기본값은 px이나 %로 설정가능
+    bgcolor = 백그라운드 색상지정
+    bgalpha = 백그라운드 불투명도 지정
+    zorder = css의 z-index, 얼마나 위에 표시될지
+
+	 -->
 
 	<!-- map opening - scale the map up to 100% (or smaller if the screen is too small) -->
 	<action name="openmap">
